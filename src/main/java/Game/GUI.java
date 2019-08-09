@@ -1,3 +1,5 @@
+package Game;
+
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
@@ -10,6 +12,7 @@ import java.io.File;
 public class GUI extends JFrame implements ActionListener {
 
     private JPanel mainPanel, gamePanel, logPanel, legendPanel;
+    private Board board;
     private JScrollPane scrollPane;
     private JTextArea textArea;
     private final static String newline = "\n";
@@ -23,6 +26,7 @@ public class GUI extends JFrame implements ActionListener {
     private JMenuItem help, saveGame, loadGame;
     private JLabel antelopeLabel, dandelionLabel, foxLabel, grassLabel, guaranaLabel, wolfLabel, wolfberryLabel, tortoiseLabel, playerLabel, sheepLabel;
 
+    private String helpMessage = "Help" + newline + "Help" + newline + "Help" + newline + "Help" + newline + "Help" + newline + "Help" + newline + "Help" + newline;
 
     private final JFileChooser fc = new JFileChooser();
 
@@ -31,6 +35,54 @@ public class GUI extends JFrame implements ActionListener {
             GUI gui = new GUI();
             gui.setVisible(true);
         });
+    }
+
+    public ImageIcon getGameIcon() {
+        return gameIcon;
+    }
+
+    public ImageIcon getAntelopeIcon() {
+        return antelopeIcon;
+    }
+
+    public ImageIcon getDandelionIcon() {
+        return dandelionIcon;
+    }
+
+    public ImageIcon getFoxIcon() {
+        return foxIcon;
+    }
+
+    public ImageIcon getGrassIcon() {
+        return grassIcon;
+    }
+
+    public ImageIcon getWolfIcon() {
+        return wolfIcon;
+    }
+
+    public ImageIcon getWolfberryIcon() {
+        return wolfberryIcon;
+    }
+
+    public ImageIcon getGuaranaIcon() {
+        return guaranaIcon;
+    }
+
+    public ImageIcon getTortioseIcon() {
+        return tortioseIcon;
+    }
+
+    public ImageIcon getPlayerIcon() {
+        return playerIcon;
+    }
+
+    public ImageIcon getTileIcon() {
+        return tileIcon;
+    }
+
+    public ImageIcon getSheepIcon() {
+        return sheepIcon;
     }
 
     public GUI() {
@@ -66,11 +118,11 @@ public class GUI extends JFrame implements ActionListener {
     }
 
     private void createLegend() {
-        GridLayout flo = new GridLayout(5,2);
+        GridLayout flo = new GridLayout(5, 2);
         antelopeLabel = new JLabel("Antelope", antelopeIcon, JLabel.CENTER);
         antelopeLabel.setVerticalTextPosition(JLabel.CENTER);
         antelopeLabel.setHorizontalTextPosition(JLabel.RIGHT);
-//LEADING or TRAILING
+
         dandelionLabel = new JLabel("Dandelion", dandelionIcon, JLabel.CENTER);
         dandelionLabel.setVerticalTextPosition(JLabel.CENTER);
         dandelionLabel.setHorizontalTextPosition(JLabel.RIGHT);
@@ -103,10 +155,9 @@ public class GUI extends JFrame implements ActionListener {
         sheepLabel.setVerticalTextPosition(JLabel.CENTER);
         sheepLabel.setHorizontalTextPosition(JLabel.RIGHT);
 
-        playerLabel = new JLabel("Player", playerIcon, JLabel.CENTER);
+        playerLabel = new JLabel("Game.Player", playerIcon, JLabel.CENTER);
         playerLabel.setVerticalTextPosition(JLabel.CENTER);
         playerLabel.setHorizontalTextPosition(JLabel.RIGHT);
-
 
         legendPanel.setLayout(flo);
         legendPanel.add(dandelionLabel);
@@ -119,7 +170,6 @@ public class GUI extends JFrame implements ActionListener {
         legendPanel.add(tortoiseLabel);
         legendPanel.add(sheepLabel);
         legendPanel.add(playerLabel);
-
     }
 
 
@@ -153,17 +203,19 @@ public class GUI extends JFrame implements ActionListener {
 
     private void createGameWindow() {
         mainPanel = (JPanel) getContentPane();
-        gamePanel = new JPanel();
+//        gamePanel = new JPanel();
+        board = new Board();
+
         logPanel = new JPanel();
         legendPanel = new JPanel();
 
         mainPanel.setLayout(null);
         mainPanel.setVisible(true);
 
-        gamePanel.setBackground(Color.PINK);
-        gamePanel.setBounds(0, 0, 448, 448);
-        gamePanel.setVisible(true);
-        gamePanel.setBorder(new TitledBorder(new EtchedBorder(), "Game area"));
+//        gamePanel.setBackground(Color.PINK);
+//        gamePanel.setBounds(0, 0, 448, 448);
+//        gamePanel.setVisible(true);
+//        gamePanel.setBorder(new TitledBorder(new EtchedBorder(), "Game area"));
 
         logPanel.setVisible(true);
         logPanel.setBackground(Color.ORANGE);
@@ -187,7 +239,8 @@ public class GUI extends JFrame implements ActionListener {
         legendPanel.setBackground(Color.ORANGE);
         legendPanel.setBorder(new TitledBorder(new EtchedBorder(), "Legend: "));
 
-        mainPanel.add(gamePanel);
+//        mainPanel.add(gamePanel);
+        mainPanel.add(board);
         mainPanel.add(logPanel);
         mainPanel.add(legendPanel);
     }
@@ -202,11 +255,9 @@ public class GUI extends JFrame implements ActionListener {
             }
         } else if (e.getSource() == saveGame) {
             int returnVal = fc.showSaveDialog(this);
-            if (returnVal == JFileChooser.APPROVE_OPTION) {
 
-            }
         } else if (e.getSource() == help) {
-
+            JOptionPane.showMessageDialog(this, helpMessage, "Help", JOptionPane.PLAIN_MESSAGE);
         }
     }
 }
