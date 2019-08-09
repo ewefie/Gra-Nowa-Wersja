@@ -11,7 +11,7 @@ import java.io.File;
 
 public class GUI extends JFrame implements ActionListener {
 
-    private JPanel mainPanel, logPanel, legendPanel;
+    private JPanel mainPanel, logPanel, legendPanel, abilitiesPanel;
     private Board board;
     private JScrollPane scrollPane;
 
@@ -21,6 +21,7 @@ public class GUI extends JFrame implements ActionListener {
     private static final int WIDTH = 690;
     private static final int HEIGHT = 713;
     private ImageIcon gameIcon, antelopeIcon, dandelionIcon, foxIcon, grassIcon, wolfIcon, wolfberryIcon, guaranaIcon, tortioseIcon, playerIcon, tileIcon, sheepIcon;
+    private ImageIcon alzursShielIcon, antelopesSpeedIcon, ignitionIcon, immortalityIcon, magicalPotionIcon;
     private JMenuBar menuBar;
 
     private JMenu gameMenu;
@@ -53,25 +54,46 @@ public class GUI extends JFrame implements ActionListener {
         createFrame();
         fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
         createLegend();
+        createAbilitiesPanel();
     }
 
     private void loadIcons() {
         gameIcon = new ImageIcon(("images/KONIEC.png"));
-        antelopeIcon = new ImageIcon("images/antylopa.png");
-        dandelionIcon = new ImageIcon("images/mlecz.png");
-        foxIcon = new ImageIcon("images/fox.png");
-        grassIcon = new ImageIcon("images/trawa.png");
-        wolfIcon = new ImageIcon("images/wolf.png");
-        wolfberryIcon = new ImageIcon("images/wolfberry.png");
-        playerIcon = new ImageIcon("images/player.png");
+
         tileIcon = new ImageIcon("images/ziemia.png");
-        sheepIcon = new ImageIcon("images/sheep.png");
+
+        playerIcon = new ImageIcon("images/player.png");
+
+        antelopeIcon = new ImageIcon("images/antylopa.png");
+        foxIcon = new ImageIcon("images/fox.png");
+        wolfIcon = new ImageIcon("images/wolf.png");
         tortioseIcon = new ImageIcon("images/tortoise.png");
+        sheepIcon = new ImageIcon("images/sheep.png");
+
+        dandelionIcon = new ImageIcon("images/mlecz.png");
+        grassIcon = new ImageIcon("images/trawa.png");
+        wolfberryIcon = new ImageIcon("images/wolfberry.png");
         guaranaIcon = new ImageIcon("images/guarana.png");
+
+        alzursShielIcon = new ImageIcon("images/shield.png");
+        antelopesSpeedIcon = new ImageIcon("images/aspeed.png");
+        ignitionIcon = new ImageIcon("images/ignition.png");
+        immortalityIcon = new ImageIcon("images/immortality.png");
+        magicalPotionIcon = new ImageIcon("images/potion.png");
+    }
+
+    private void createAbilitiesPanel() {
+        GridLayout flo = new GridLayout(5, 1);
+        abilitiesPanel.add(new JLabel("Immortality => press \"1\"", immortalityIcon, JLabel.LEFT));
+        abilitiesPanel.add(new JLabel("Ignition => press \"2\"", ignitionIcon, JLabel.LEFT));
+        abilitiesPanel.add(new JLabel("Alzur's Shield => press \"3\"", alzursShielIcon, JLabel.LEFT));
+        abilitiesPanel.add(new JLabel("Antelope's speed=> press \"4\"", antelopesSpeedIcon, JLabel.LEFT));
+        abilitiesPanel.add(new JLabel("Magical Potion => press \"5\"", magicalPotionIcon, JLabel.LEFT));
     }
 
     private void createLegend() {
         GridLayout flo = new GridLayout(5, 2);
+
         antelopeLabel = new JLabel("Antelope", antelopeIcon, JLabel.CENTER);
         antelopeLabel.setVerticalTextPosition(JLabel.CENTER);
         antelopeLabel.setHorizontalTextPosition(JLabel.RIGHT);
@@ -108,7 +130,7 @@ public class GUI extends JFrame implements ActionListener {
         sheepLabel.setVerticalTextPosition(JLabel.CENTER);
         sheepLabel.setHorizontalTextPosition(JLabel.RIGHT);
 
-        playerLabel = new JLabel("Game.Player", playerIcon, JLabel.CENTER);
+        playerLabel = new JLabel("Player", playerIcon, JLabel.CENTER);
         playerLabel.setVerticalTextPosition(JLabel.CENTER);
         playerLabel.setHorizontalTextPosition(JLabel.RIGHT);
 
@@ -117,6 +139,7 @@ public class GUI extends JFrame implements ActionListener {
         legendPanel.add(guaranaLabel);
         legendPanel.add(wolfberryLabel);
         legendPanel.add(grassLabel);
+
         legendPanel.add(antelopeLabel);
         legendPanel.add(foxLabel);
         legendPanel.add(wolfLabel);
@@ -160,12 +183,13 @@ public class GUI extends JFrame implements ActionListener {
 
         logPanel = new JPanel();
         legendPanel = new JPanel();
+        abilitiesPanel = new JPanel();
 
         mainPanel.setLayout(null);
         mainPanel.setVisible(true);
 
         logPanel.setVisible(true);
-        logPanel.setBackground(Color.ORANGE);
+        logPanel.setBackground(new Color(135, 206, 250));
         logPanel.setBounds(0, 449, 675, 202);
         logPanel.setBorder(new TitledBorder(new EtchedBorder(), "Actions: "));
 
@@ -184,13 +208,19 @@ public class GUI extends JFrame implements ActionListener {
         logPanel.add(scrollPane);
 
         legendPanel.setVisible(true);
-        legendPanel.setBounds(449, 0, 226, 448);
+        legendPanel.setBounds(449, 0, 226, 224);
         legendPanel.setBackground(Color.ORANGE);
         legendPanel.setBorder(new TitledBorder(new EtchedBorder(), "Legend: "));
+
+        abilitiesPanel.setVisible(true);
+        abilitiesPanel.setBackground(Color.PINK);
+        abilitiesPanel.setBounds(449, 225, 226, 224);
+        abilitiesPanel.setBorder(new TitledBorder(new EtchedBorder(), "Abilities: "));
 
         mainPanel.add(board);
         mainPanel.add(logPanel);
         mainPanel.add(legendPanel);
+        mainPanel.add(abilitiesPanel);
     }
 
     @Override

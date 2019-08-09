@@ -171,12 +171,9 @@ public class Board extends JPanel implements ActionListener {
             }
             for (Organism organism : organismMap.values()) {
                 g.drawImage(organism.getImage(), (organism.getActualLocation().getTileX() * blockSize), (organism.getActualLocation().getTileY() * blockSize), null);
-
             }
-
         }
     }
-
 
     private void checkifwinner() {
         if (this.organismMap.containsValue(player) && this.organismMap.size() == 1) {
