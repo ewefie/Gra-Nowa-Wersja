@@ -1,12 +1,9 @@
-
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.File;
 
 
@@ -18,14 +15,13 @@ public class GUI extends JFrame implements ActionListener {
     private final static String newline = "\n";
     private static final int WIDTH = 690;
     private static final int HEIGHT = 713;
-    private ImageIcon gameIcon;
+    private ImageIcon gameIcon, antelopeIcon, dandelionIcon, foxIcon, grassIcon, wolfIcon, wolfberryIcon, guaranaIcon, tortioseIcon, playerIcon, tileIcon, sheepIcon;
 
     private JMenuBar menuBar;
     private JMenu gameMenu;
 
-    private JMenuItem help;
-    private JMenuItem saveGame;
-    private JMenuItem loadGame;
+    private JMenuItem help, saveGame, loadGame;
+    private JLabel antelopeLabel, dandelionLabel, foxLabel, grassLabel, guaranaLabel, wolfLabel, wolfberryLabel, tortoiseLabel, playerLabel, sheepLabel;
 
 
     private final JFileChooser fc = new JFileChooser();
@@ -46,10 +42,84 @@ public class GUI extends JFrame implements ActionListener {
     }
 
     private void createComponents() {
+        loadIcons();
         createMenu();
         createGameWindow();
         createFrame();
         fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        createLegend();
+    }
+
+    private void loadIcons() {
+        gameIcon = new ImageIcon(("images/KONIEC.png"));
+        antelopeIcon = new ImageIcon("images/antylopa.png");
+        dandelionIcon = new ImageIcon("images/mlecz.png");
+        foxIcon = new ImageIcon("images/fox.png");
+        grassIcon = new ImageIcon("images/trawa.png");
+        wolfIcon = new ImageIcon("images/wolf.png");
+        wolfberryIcon = new ImageIcon("images/wolfberry.png");
+        playerIcon = new ImageIcon("images/player.png");
+        tileIcon = new ImageIcon("images/ziemia.png");
+        sheepIcon = new ImageIcon("images/sheep.png");
+        tortioseIcon = new ImageIcon("images/tortoise.png");
+        guaranaIcon = new ImageIcon("images/guarana.png");
+    }
+
+    private void createLegend() {
+        GridLayout flo = new GridLayout(5,2);
+        antelopeLabel = new JLabel("Antelope", antelopeIcon, JLabel.CENTER);
+        antelopeLabel.setVerticalTextPosition(JLabel.CENTER);
+        antelopeLabel.setHorizontalTextPosition(JLabel.RIGHT);
+//LEADING or TRAILING
+        dandelionLabel = new JLabel("Dandelion", dandelionIcon, JLabel.CENTER);
+        dandelionLabel.setVerticalTextPosition(JLabel.CENTER);
+        dandelionLabel.setHorizontalTextPosition(JLabel.RIGHT);
+
+        foxLabel = new JLabel("Fox", foxIcon, JLabel.CENTER);
+        foxLabel.setVerticalTextPosition(JLabel.CENTER);
+        foxLabel.setHorizontalTextPosition(JLabel.RIGHT);
+
+        grassLabel = new JLabel("Grass", grassIcon, JLabel.CENTER);
+        grassLabel.setVerticalTextPosition(JLabel.CENTER);
+        grassLabel.setHorizontalTextPosition(JLabel.RIGHT);
+
+        guaranaLabel = new JLabel("Guarana", guaranaIcon, JLabel.CENTER);
+        guaranaLabel.setVerticalTextPosition(JLabel.CENTER);
+        guaranaLabel.setHorizontalTextPosition(JLabel.RIGHT);
+
+        wolfLabel = new JLabel("Wolf", wolfIcon, JLabel.CENTER);
+        wolfLabel.setVerticalTextPosition(JLabel.CENTER);
+        wolfLabel.setHorizontalTextPosition(JLabel.RIGHT);
+
+        wolfberryLabel = new JLabel("Wolfberry", wolfberryIcon, JLabel.CENTER);
+        wolfberryLabel.setVerticalTextPosition(JLabel.CENTER);
+        wolfberryLabel.setHorizontalTextPosition(JLabel.RIGHT);
+
+        tortoiseLabel = new JLabel("Tortoise", tortioseIcon, JLabel.CENTER);
+        tortoiseLabel.setVerticalTextPosition(JLabel.CENTER);
+        tortoiseLabel.setHorizontalTextPosition(JLabel.RIGHT);
+
+        sheepLabel = new JLabel("Sheep", sheepIcon, JLabel.CENTER);
+        sheepLabel.setVerticalTextPosition(JLabel.CENTER);
+        sheepLabel.setHorizontalTextPosition(JLabel.RIGHT);
+
+        playerLabel = new JLabel("Player", playerIcon, JLabel.CENTER);
+        playerLabel.setVerticalTextPosition(JLabel.CENTER);
+        playerLabel.setHorizontalTextPosition(JLabel.RIGHT);
+
+
+        legendPanel.setLayout(flo);
+        legendPanel.add(dandelionLabel);
+        legendPanel.add(guaranaLabel);
+        legendPanel.add(wolfberryLabel);
+        legendPanel.add(grassLabel);
+        legendPanel.add(antelopeLabel);
+        legendPanel.add(foxLabel);
+        legendPanel.add(wolfLabel);
+        legendPanel.add(tortoiseLabel);
+        legendPanel.add(sheepLabel);
+        legendPanel.add(playerLabel);
+
     }
 
 
@@ -57,7 +127,6 @@ public class GUI extends JFrame implements ActionListener {
         menuBar = new JMenuBar();
         gameMenu = new JMenu("Game");
         menuBar.add(gameMenu);
-
         saveGame = new JMenuItem("Save game");
         saveGame.addActionListener(this::actionPerformed);
         loadGame = new JMenuItem("Load game");
@@ -66,14 +135,12 @@ public class GUI extends JFrame implements ActionListener {
         help.addActionListener(this::actionPerformed);
         menuBar.add(help);
 
-
         gameMenu.add(saveGame);
         gameMenu.add(loadGame);
     }
 
     private void createFrame() {
         setTitle("\"Virtual World\" Game");
-        gameIcon = new ImageIcon(("images/KONIEC.png"));
         setIconImage(gameIcon.getImage());
         setSize(WIDTH, HEIGHT);
         setLocationRelativeTo(null);
@@ -101,7 +168,7 @@ public class GUI extends JFrame implements ActionListener {
         logPanel.setVisible(true);
         logPanel.setBackground(Color.ORANGE);
         logPanel.setBounds(0, 449, 675, 202);
-        logPanel.setBorder(new TitledBorder(new EtchedBorder(), "Logs: "));
+        logPanel.setBorder(new TitledBorder(new EtchedBorder(), "Actions: "));
 
         textArea = new JTextArea(10, 58);
         textArea.setEditable(false);
@@ -136,7 +203,7 @@ public class GUI extends JFrame implements ActionListener {
         } else if (e.getSource() == saveGame) {
             int returnVal = fc.showSaveDialog(this);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
-                File file = fc.getSelectedFile();
+
             }
         } else if (e.getSource() == help) {
 
