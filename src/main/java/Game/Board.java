@@ -19,7 +19,7 @@ public class Board extends JPanel implements ActionListener {
     Random random = new Random();
     private Timer timer;
     private Player player;
-    private boolean inGame = false;
+    private boolean inGame = true;
     private boolean winner = false;
     private boolean looser = false;
     private boolean playersTurn = true;
@@ -65,11 +65,9 @@ public class Board extends JPanel implements ActionListener {
         return organismMap;
     }
 
-
     public int getBlockNumber() {
         return blockNumber;
     }
-
 
     public void setInGame(boolean inGame) {
         this.inGame = inGame;
@@ -120,7 +118,7 @@ public class Board extends JPanel implements ActionListener {
             }
             if (looser) {
                 looser();
-                           }
+            }
             checkifwinner();//jesli gracz jest ostatnim obiektem to przestawiam flagę na true
             Logger.log("**NEW ROUND**");
         }
@@ -156,19 +154,7 @@ public class Board extends JPanel implements ActionListener {
     @Override
     public void paint(Graphics g) {
         super.paint(g);
-
-        if (!inGame) {
-            if (winner) {
-//                winner(g);
-            }
-            if (looser) {
-//                looser(g);
-            }
-            if (!looser && !winner) {
-                showIntroScreen(g);
-            }
-
-        } else {
+        if (inGame) {
             for (int y = 0; y < blockNumber; y++) {
                 for (int x = 0; x < blockNumber; x++) {
                     g.drawImage(ground.getImage(), x * blockSize, y * blockSize, null);
@@ -189,44 +175,30 @@ public class Board extends JPanel implements ActionListener {
         return winner;
     }
 
-
-    private void showIntroScreen(Graphics g2d) {
-        g2d.setColor(Color.ORANGE);
-        g2d.fillRect(0, 0 / 2 - 30, 690, 485);
-        g2d.setColor(Color.white);
-        g2d.drawRect(boardSize / 2 - 150, boardSize / 2 - 30, 300, 50);
-
-        String s = "Press s to start new game.";
-        Font small = new Font("Helvetica", Font.BOLD, 14);
-        FontMetrics metr = this.getFontMetrics(small);
-
-        g2d.setColor(Color.white);
-        g2d.setFont(small);
-        g2d.drawString(s, (boardSize - metr.stringWidth(s)) / 2, boardSize / 2);
-    }
-
     private void looser() {
         Object[] options = {"Start new game", "Exit game"};
-        int playersChoice = JOptionPane.showOptionDialog(this, "Game over!", "Looser", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
+        int playersChoice = JOptionPane.showOptionDialog(this, "Game over!", "Looser",
+                JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
         if (playersChoice == 0) {
             gameInit();
             inGame = true;
             looser = false;
             Logger.log("NEW GAME");
-        } else if(playersChoice ==1){
+        } else if (playersChoice == 1) {
             System.exit(0);
         }
     }
 
     private void winner() {
         Object[] options = {"Start new game", "Exit game"};
-        int playersChoice = JOptionPane.showOptionDialog(this, "Congratulations!", "Winner", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
+        int playersChoice = JOptionPane.showOptionDialog(this, "Congratulations!", "Winner",
+                JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
         if (playersChoice == 0) {
             gameInit();
             inGame = true;
             winner = false;
             Logger.log("NEW GAME");
-        } else if(playersChoice ==1){
+        } else if (playersChoice == 1) {
             System.exit(0);
         }
     }
@@ -306,17 +278,6 @@ public class Board extends JPanel implements ActionListener {
                         Logger.log("Player moved right.");
                         playersTurn = false;
                     }
-                }
-            } else if (!inGame) {
-                if (winner || looser) {
-                    if (keyCode == KeyEvent.VK_SPACE) {
-                        winner = false;
-                        looser = false;
-                    }
-                } else if (keyCode == 's' || keyCode == 'S') {
-                    gameInit();
-                    inGame = true;
-                    Logger.log("NEW GAME");
                 }
             }
         }
