@@ -13,6 +13,7 @@ import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 public class Board extends JPanel implements ActionListener {
 
     Random random = new Random();
@@ -33,19 +34,16 @@ public class Board extends JPanel implements ActionListener {
             OrganismType.DANDELION, OrganismType.FOX, OrganismType.GRASS, OrganismType.GUARANA,
             OrganismType.SHEEP, OrganismType.TORTOISE, OrganismType.WOLF, OrganismType.WOLFBERRY));
 
-    private final static String newline = "\n";
-
     private ImageIcon ground;
 
     public Board() {
         setBounds(0, 0, boardSize, boardSize);
         setVisible(true);
-        setBackground(Color.BLUE);
+        setBackground(Color.ORANGE);
         setLayout(null);
-        gameInit();
     }
 
-    public void gameInit() {
+    protected void gameInit() {
         ground = new ImageIcon("images/ziemia.png");
         player = new Player(this);
         organismMap = new HashMap<>();
@@ -117,9 +115,16 @@ public class Board extends JPanel implements ActionListener {
             this.player.reduceCooldowns();
             playersTurn = true;
             player.action();
+            if (checkifwinner()) {
+                winner();
+            }
+            if (looser) {
+                looser();
+                           }
             checkifwinner();//jesli gracz jest ostatnim obiektem to przestawiam flagę na true
             Logger.log("**NEW ROUND**");
         }
+
     }
 
     public List<Organism> getTempList() {
@@ -154,10 +159,10 @@ public class Board extends JPanel implements ActionListener {
 
         if (!inGame) {
             if (winner) {
-                winner(g);
+//                winner(g);
             }
             if (looser) {
-                looser(g);
+//                looser(g);
             }
             if (!looser && !winner) {
                 showIntroScreen(g);
@@ -175,12 +180,13 @@ public class Board extends JPanel implements ActionListener {
         }
     }
 
-    private void checkifwinner() {
+    private boolean checkifwinner() {
         if (this.organismMap.containsValue(player) && this.organismMap.size() == 1) {
             Logger.log("PLAYER WINS!");
             winner = true;
             inGame = false;
         }
+        return winner;
     }
 
 
@@ -199,34 +205,30 @@ public class Board extends JPanel implements ActionListener {
         g2d.drawString(s, (boardSize - metr.stringWidth(s)) / 2, boardSize / 2);
     }
 
-    private void looser(Graphics g2d) {
-        g2d.setColor(Color.red);
-        g2d.fillRect(0, 0 / 2 - 30, 690, 485);
-        g2d.setColor(Color.white);
-        g2d.drawRect(boardSize / 2 - 150, boardSize / 2 - 30, 300, 50);
-
-        String s = "GAME OVER! Press SPACE to continue";
-        Font small = new Font("Helvetica", Font.BOLD, 14);
-        FontMetrics metr = this.getFontMetrics(small);
-
-        g2d.setColor(Color.white);
-        g2d.setFont(small);
-        g2d.drawString(s, (boardSize - metr.stringWidth(s)) / 2, boardSize / 2);
+    private void looser() {
+        Object[] options = {"Start new game", "Exit game"};
+        int playersChoice = JOptionPane.showOptionDialog(this, "Game over!", "Looser", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
+        if (playersChoice == 0) {
+            gameInit();
+            inGame = true;
+            looser = false;
+            Logger.log("NEW GAME");
+        } else if(playersChoice ==1){
+            System.exit(0);
+        }
     }
 
-    private void winner(Graphics g2d) {
-        g2d.setColor(Color.green);
-        g2d.fillRect(0, 0 / 2 - 30, 690, 485);
-        g2d.setColor(Color.white);
-        g2d.drawRect(boardSize / 2 - 150, boardSize / 2 - 30, 300, 50);
-
-        String s = "WINNER! Press SPACE to continue";
-        Font small = new Font("Helvetica", Font.BOLD, 14);
-        FontMetrics metr = this.getFontMetrics(small);
-
-        g2d.setColor(Color.white);
-        g2d.setFont(small);
-        g2d.drawString(s, (boardSize - metr.stringWidth(s)) / 2, boardSize / 2);
+    private void winner() {
+        Object[] options = {"Start new game", "Exit game"};
+        int playersChoice = JOptionPane.showOptionDialog(this, "Congratulations!", "Winner", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
+        if (playersChoice == 0) {
+            gameInit();
+            inGame = true;
+            winner = false;
+            Logger.log("NEW GAME");
+        } else if(playersChoice ==1){
+            System.exit(0);
+        }
     }
 
 

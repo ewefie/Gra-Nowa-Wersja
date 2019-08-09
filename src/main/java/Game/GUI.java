@@ -1,5 +1,7 @@
 package Game;
 
+import sun.plugin.javascript.navig.JSObjectFactory;
+
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
@@ -28,7 +30,13 @@ public class GUI extends JFrame implements ActionListener {
     private JMenuItem help, saveGame, loadGame;
 
     private JLabel antelopeLabel, dandelionLabel, foxLabel, grassLabel, guaranaLabel, wolfLabel, wolfberryLabel, tortoiseLabel, playerLabel, sheepLabel;
-    private String helpMessage = "Help" + newline + "Help" + newline + "Help" + newline + "Help" + newline + "Help" + newline + "Help" + newline + "Help" + newline;
+    private String helpMessage = "Player have 5 special abilities activated by pressing keys 1, 2, 3, 4 or 5. \n" +
+            "After using a special ability, it is active for 5 rounds, and after that, for another 5 rounds, it is on cooldown. \n" +
+            "* Immortality - player become immortal. \n" +
+            "* Ignition - player burns all animals and plants located on tiles next to his location. \n" +
+            "* Alzur’s Shield - player moves push back attacks - animals have to move to another tile. \n" +
+            "* Antelope’s speed - player move range increases to 2 tiles. \n" +
+            "* Magical Potion - player strength increases by 5 points.";
 
     private final JFileChooser fc = new JFileChooser();
 
@@ -45,6 +53,7 @@ public class GUI extends JFrame implements ActionListener {
 
     private void run() {
         createComponents();
+        board.gameInit();
     }
 
     private void createComponents() {
@@ -232,6 +241,7 @@ public class GUI extends JFrame implements ActionListener {
             }
         } else if (e.getSource() == saveGame) {
             int returnVal = fc.showSaveDialog(this);
+            File file = new File(".jsonb");
 
         } else if (e.getSource() == help) {
             JOptionPane.showMessageDialog(this, helpMessage, "Help", JOptionPane.PLAIN_MESSAGE);
