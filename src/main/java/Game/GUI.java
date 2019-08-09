@@ -11,21 +11,22 @@ import java.io.File;
 
 public class GUI extends JFrame implements ActionListener {
 
-    private JPanel mainPanel, gamePanel, logPanel, legendPanel;
+    private JPanel mainPanel, logPanel, legendPanel;
     private Board board;
     private JScrollPane scrollPane;
+
     private JTextArea textArea;
+
     private final static String newline = "\n";
     private static final int WIDTH = 690;
     private static final int HEIGHT = 713;
     private ImageIcon gameIcon, antelopeIcon, dandelionIcon, foxIcon, grassIcon, wolfIcon, wolfberryIcon, guaranaIcon, tortioseIcon, playerIcon, tileIcon, sheepIcon;
-
     private JMenuBar menuBar;
+
     private JMenu gameMenu;
-
     private JMenuItem help, saveGame, loadGame;
-    private JLabel antelopeLabel, dandelionLabel, foxLabel, grassLabel, guaranaLabel, wolfLabel, wolfberryLabel, tortoiseLabel, playerLabel, sheepLabel;
 
+    private JLabel antelopeLabel, dandelionLabel, foxLabel, grassLabel, guaranaLabel, wolfLabel, wolfberryLabel, tortoiseLabel, playerLabel, sheepLabel;
     private String helpMessage = "Help" + newline + "Help" + newline + "Help" + newline + "Help" + newline + "Help" + newline + "Help" + newline + "Help" + newline;
 
     private final JFileChooser fc = new JFileChooser();
@@ -35,54 +36,6 @@ public class GUI extends JFrame implements ActionListener {
             GUI gui = new GUI();
             gui.setVisible(true);
         });
-    }
-
-    public ImageIcon getGameIcon() {
-        return gameIcon;
-    }
-
-    public ImageIcon getAntelopeIcon() {
-        return antelopeIcon;
-    }
-
-    public ImageIcon getDandelionIcon() {
-        return dandelionIcon;
-    }
-
-    public ImageIcon getFoxIcon() {
-        return foxIcon;
-    }
-
-    public ImageIcon getGrassIcon() {
-        return grassIcon;
-    }
-
-    public ImageIcon getWolfIcon() {
-        return wolfIcon;
-    }
-
-    public ImageIcon getWolfberryIcon() {
-        return wolfberryIcon;
-    }
-
-    public ImageIcon getGuaranaIcon() {
-        return guaranaIcon;
-    }
-
-    public ImageIcon getTortioseIcon() {
-        return tortioseIcon;
-    }
-
-    public ImageIcon getPlayerIcon() {
-        return playerIcon;
-    }
-
-    public ImageIcon getTileIcon() {
-        return tileIcon;
-    }
-
-    public ImageIcon getSheepIcon() {
-        return sheepIcon;
     }
 
     public GUI() {
@@ -203,7 +156,6 @@ public class GUI extends JFrame implements ActionListener {
 
     private void createGameWindow() {
         mainPanel = (JPanel) getContentPane();
-//        gamePanel = new JPanel();
         board = new Board();
 
         logPanel = new JPanel();
@@ -212,22 +164,19 @@ public class GUI extends JFrame implements ActionListener {
         mainPanel.setLayout(null);
         mainPanel.setVisible(true);
 
-//        gamePanel.setBackground(Color.PINK);
-//        gamePanel.setBounds(0, 0, 448, 448);
-//        gamePanel.setVisible(true);
-//        gamePanel.setBorder(new TitledBorder(new EtchedBorder(), "Game area"));
-
         logPanel.setVisible(true);
         logPanel.setBackground(Color.ORANGE);
         logPanel.setBounds(0, 449, 675, 202);
         logPanel.setBorder(new TitledBorder(new EtchedBorder(), "Actions: "));
 
-        textArea = new JTextArea(10, 58);
-        textArea.setEditable(false);
-        textArea.setLineWrap(true);
-        textArea.setWrapStyleWord(true);
+        Logger.getInstance().setEditable(false);
+        Logger.getInstance().setLineWrap(true);
+        Logger.getInstance().setWrapStyleWord(true);
+        Logger.getInstance().setColumns(58);
+        Logger.getInstance().setRows(10);
 
-        scrollPane = new JScrollPane(textArea);
+        scrollPane = new JScrollPane(Logger.getInstance());
+
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setVisible(true);
@@ -239,12 +188,10 @@ public class GUI extends JFrame implements ActionListener {
         legendPanel.setBackground(Color.ORANGE);
         legendPanel.setBorder(new TitledBorder(new EtchedBorder(), "Legend: "));
 
-//        mainPanel.add(gamePanel);
         mainPanel.add(board);
         mainPanel.add(logPanel);
         mainPanel.add(legendPanel);
     }
-
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -259,5 +206,57 @@ public class GUI extends JFrame implements ActionListener {
         } else if (e.getSource() == help) {
             JOptionPane.showMessageDialog(this, helpMessage, "Help", JOptionPane.PLAIN_MESSAGE);
         }
+    }
+
+    public ImageIcon getGameIcon() {
+        return gameIcon;
+    }
+
+    public ImageIcon getAntelopeIcon() {
+        return antelopeIcon;
+    }
+
+    public ImageIcon getDandelionIcon() {
+        return dandelionIcon;
+    }
+
+    public ImageIcon getFoxIcon() {
+        return foxIcon;
+    }
+
+    public ImageIcon getGrassIcon() {
+        return grassIcon;
+    }
+
+    public ImageIcon getWolfIcon() {
+        return wolfIcon;
+    }
+
+    public ImageIcon getWolfberryIcon() {
+        return wolfberryIcon;
+    }
+
+    public ImageIcon getGuaranaIcon() {
+        return guaranaIcon;
+    }
+
+    public ImageIcon getTortioseIcon() {
+        return tortioseIcon;
+    }
+
+    public JTextArea getTextArea() {
+        return textArea;
+    }
+
+    public ImageIcon getPlayerIcon() {
+        return playerIcon;
+    }
+
+    public ImageIcon getTileIcon() {
+        return tileIcon;
+    }
+
+    public ImageIcon getSheepIcon() {
+        return sheepIcon;
     }
 }

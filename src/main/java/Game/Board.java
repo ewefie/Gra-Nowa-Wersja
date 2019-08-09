@@ -113,13 +113,12 @@ public class Board extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         repaint();
         if (!playersTurn) {
-            Logger.log("**NEW ROUND**");
-
             organismsAction();
             this.player.reduceCooldowns();
             playersTurn = true;
             player.action();
             checkifwinner();//jesli gracz jest ostatnim obiektem to przestawiam flagę na true
+            Logger.log("**NEW ROUND**");
         }
     }
 
@@ -186,7 +185,7 @@ public class Board extends JPanel implements ActionListener {
             inGame = false;
         }
     }
-    
+
 
     private void showIntroScreen(Graphics g2d) {
         g2d.setColor(Color.ORANGE);
