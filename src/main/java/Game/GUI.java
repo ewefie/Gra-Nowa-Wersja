@@ -1,7 +1,5 @@
 package Game;
 
-import sun.plugin.javascript.navig.JSObjectFactory;
-
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
@@ -17,9 +15,6 @@ public class GUI extends JFrame implements ActionListener {
     private Board board;
     private JScrollPane scrollPane;
 
-    private JTextArea textArea;
-
-    private final static String newline = "\n";
     private static final int WIDTH = 690;
     private static final int HEIGHT = 713;
     private ImageIcon gameIcon, antelopeIcon, dandelionIcon, foxIcon, grassIcon, wolfIcon, wolfberryIcon, guaranaIcon, tortioseIcon, playerIcon, tileIcon, sheepIcon;
@@ -35,8 +30,12 @@ public class GUI extends JFrame implements ActionListener {
             "* Immortality - player become immortal. \n" +
             "* Ignition - player burns all animals and plants located on tiles next to his location. \n" +
             "* Alzur’s Shield - player moves push back attacks - animals have to move to another tile. \n" +
-            "* Antelope’s speed - player move range increases to 2 tiles. \n" +
+            "* Antelope’s speed - play" +
+            "er move range increases to 2 tiles. \n" +
             "* Magical Potion - player strength increases by 5 points.";
+
+    protected String env = System.getProperty("user.dir");
+    Object[] saves = {"Empty", "Empty", "Empty", "Empty", "Empty"};
 
     private final JFileChooser fc = new JFileChooser();
 
@@ -64,6 +63,16 @@ public class GUI extends JFrame implements ActionListener {
         fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
         createLegend();
         createAbilitiesPanel();
+        getSaves();
+    }
+
+    private void getSaves() {
+        for (int i = 1; i <= 5; i++) {
+            File file = new File((env + '/' + "saves"), "Save_" + i + ".json");
+            if (file.exists()) {
+                saves[i - 1] = "Save_" + i;
+            }
+        }
     }
 
     private void loadIcons() {
@@ -235,16 +244,91 @@ public class GUI extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == loadGame) {
-            int returnVal = fc.showOpenDialog(this);
-            if (returnVal == JFileChooser.APPROVE_OPTION) {
-                File file = fc.getSelectedFile();
-            }
+            selectGame();
         } else if (e.getSource() == saveGame) {
-            int returnVal = fc.showSaveDialog(this);
-            File file = new File(".jsonb");
-
+            saveGame();
         } else if (e.getSource() == help) {
             JOptionPane.showMessageDialog(this, helpMessage, "Help", JOptionPane.PLAIN_MESSAGE);
+        }
+
+    }
+
+    private void selectGame() {
+        int n = JOptionPane.showOptionDialog(this,
+                "Choose a game to load",
+                "Load",
+                JOptionPane.DEFAULT_OPTION,//lub yes_no
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                saves,
+                saves[4]);
+
+        if (saves[n].equals("Empty")) {
+            JOptionPane.showMessageDialog(this,
+                    "This slot i sempty!",
+                    "Warning", JOptionPane.WARNING_MESSAGE);
+        } else {
+            switch (n) {
+                case 0:
+
+                    return;
+                case 1:
+
+                    return;
+                case 2:
+
+                    return;
+                case 3:
+
+                    return;
+                case 4:
+
+                    return;
+            }
+        }
+    }
+
+    public void saveGame() {
+        //fixme: gra zapisuje zawsze na kolejnym wolnym slocie a nie na wskazanym przez użytkownika
+        FileSaver.createSaveDirectory();
+        int n = JOptionPane.showOptionDialog(this,
+                "Choose a slot to save current game",
+                "Save",
+                JOptionPane.DEFAULT_OPTION,//lub yes_no
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                saves,
+                saves[4]);
+//
+//        DateFormat dateFormat = new SimpleDateFormat("yy/MM/dd hh:mm");
+//        Calendar cal = Calendar.getInstance();
+
+        switch (n) {
+            case 0:
+                FileSaver.saveToFile(board, 1);
+//                saves[0] = dateFormat.format(cal.getTime());
+                saves[0] = "Save_1";
+                return;
+            case 1:
+                FileSaver.saveToFile(board, 2);
+//                saves[1] = dateFormat.format(cal.getTime());
+                saves[1] = "Save_2";
+                return;
+            case 2:
+                FileSaver.saveToFile(board, 3);
+//                saves[2] = dateFormat.format(cal.getTime());
+                saves[2] = "Save_3";
+                return;
+            case 3:
+                FileSaver.saveToFile(board, 4);
+//                saves[3] = dateFormat.format(cal.getTime());
+                saves[3] = "Save_4";
+                return;
+            case 4:
+                FileSaver.saveToFile(board, 5);
+//                saves[4] = dateFormat.format(cal.getTime());
+                saves[4] = "Save_5";
+                return;
         }
     }
 
@@ -284,9 +368,6 @@ public class GUI extends JFrame implements ActionListener {
         return tortioseIcon;
     }
 
-    public JTextArea getTextArea() {
-        return textArea;
-    }
 
     public ImageIcon getPlayerIcon() {
         return playerIcon;

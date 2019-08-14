@@ -1,6 +1,9 @@
 package Game.Organisms;
 
-import Game.*;
+import Game.Board;
+import Game.Logger;
+import Game.OrganismType;
+import Game.Tile;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,7 +19,6 @@ public class Wolfberry extends Plant {
         this.image = img.getImage();
         this.newTile = actualLocation;
         this.organismType = OrganismType.WOLFBERRY;
-
     }
 
     @Override
@@ -29,7 +31,7 @@ public class Wolfberry extends Plant {
         if (getBiasedRandom(0.01f)) {//dodaję nowe rośliny prosto do mapy
             Tile location = board.findLocationForAnimal();
             board.getOrganismMap().put(location, new Wolfberry(location, board));
-            Logger.log( "A new " + this.getClass() + " has been planted.");
+            Logger.log("A new " + this.getClass() + " has been planted.");
         }
     }
 

@@ -1,16 +1,16 @@
 package Game;
 
-import Game.Organisms.*;
+import Game.Organisms.Organism;
 
-import javax.swing.*;
 import javax.swing.Timer;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -43,6 +43,26 @@ public class Board extends JPanel implements ActionListener {
         setLayout(null);
     }
 
+    public boolean isInGame() {
+        return inGame;
+    }
+
+    public boolean isWinner() {
+        return winner;
+    }
+
+    public boolean isLooser() {
+        return looser;
+    }
+
+    public boolean isPlayersTurn() {
+        return playersTurn;
+    }
+
+    public List<OrganismType> getOrganismTypes() {
+        return organismTypes;
+    }
+
     protected void gameInit() {
         ground = new ImageIcon("images/ziemia.png");
         player = new Player(this);
@@ -55,6 +75,7 @@ public class Board extends JPanel implements ActionListener {
 
         timer = new Timer(30, this::actionPerformed);
         timer.start();
+
     }
 
     public void setLooser(boolean looser) {
@@ -143,6 +164,11 @@ public class Board extends JPanel implements ActionListener {
             organism.action();
         }
         increaseOrganismsAge();
+
+        //testy!!!
+//        ********************************
+
+//        System.out.println(JSONCreator.convertToJSON(this).toString());
     }
 
     public void increaseOrganismsAge() {

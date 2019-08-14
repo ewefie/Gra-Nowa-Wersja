@@ -1,20 +1,17 @@
 package Game;
 
+import Game.Abilities.*;
+import Game.Organisms.*;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-import Game.Abilities.*;
-import Game.Organisms.*;
-
-
 
 public class Player extends Animal {
 
-    private int strength;
-    private int initiative;
     private List<Abilities> abilitiesList;
     private Image image;
 
