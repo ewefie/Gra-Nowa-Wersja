@@ -14,8 +14,6 @@ public class JSONCreator extends JSONArray {
 
         JSONArray organismsArray = new JSONArray();
 
-        //organismy dodac jako array?
-
         board.getTempList().stream().forEach(organism ->
                 {
                     JSONObject JSONorganism = new JSONObject();
@@ -23,7 +21,6 @@ public class JSONCreator extends JSONArray {
                     JSONObject newLocation = new JSONObject();
 
                     JSONorganism.put("strength", organism.getStrength());
-                    JSONorganism.put("initiative", organism.getInitiative());
                     JSONorganism.put("defeated", organism.isDefeated());
                     JSONorganism.put("age", organism.getAge());
 
@@ -49,7 +46,6 @@ public class JSONCreator extends JSONArray {
         JSONObject newLocation = new JSONObject();
 
         player.put("strength", board.getPlayer().getStrength());
-        player.put("initiative", board.getPlayer().getInitiative());
         player.put("defeated", board.getPlayer().isDefeated());
         player.put("age", board.getPlayer().getAge());
 
@@ -63,12 +59,10 @@ public class JSONCreator extends JSONArray {
 
 
         JSONArray playerAbilities = new JSONArray();
-//        protected boolean active;
-//        protected int abilityDuration;
-//        protected int abilityCooldown;
-//        protected String name;
+
         board.getPlayer().getAbilitiesList().stream().forEach(ability -> {
             JSONObject JSONability = new JSONObject();
+            JSONability.put("name", ability.getName());
             JSONability.put("active", ability.isActive());
             JSONability.put("abilityDuration", ability.getAbilityDuration());
             JSONability.put("abilityCooldown", ability.getAbilityCooldown());

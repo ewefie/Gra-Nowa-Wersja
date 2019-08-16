@@ -1,6 +1,7 @@
 package Game.Abilities;
 
-import Game.*;
+import Game.Logger;
+import Game.Player;
 
 public class Abilities {
     protected boolean active;
@@ -12,6 +13,10 @@ public class Abilities {
         this.active = false;
         this.abilityDuration = 0;
         this.abilityCooldown = 0;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public boolean isActive() {

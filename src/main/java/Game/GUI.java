@@ -22,7 +22,7 @@ public class GUI extends JFrame implements ActionListener {
     private JMenuBar menuBar;
 
     private JMenu gameMenu;
-    private JMenuItem help, saveGame, loadGame;
+    private JMenuItem help, saveGame, loadGame, newGame;
 
     private JLabel antelopeLabel, dandelionLabel, foxLabel, grassLabel, guaranaLabel, wolfLabel, wolfberryLabel, tortoiseLabel, playerLabel, sheepLabel;
     private String helpMessage = "Player have 5 special abilities activated by pressing keys 1, 2, 3, 4 or 5. \n" +
@@ -41,8 +41,8 @@ public class GUI extends JFrame implements ActionListener {
 
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
-            GUI gui = new GUI();
-            gui.setVisible(true);
+            new GUI();
+//            setVisible(true);
         });
     }
 
@@ -51,14 +51,23 @@ public class GUI extends JFrame implements ActionListener {
     }
 
     private void run() {
-        createComponents();
+        createComponents(null);
         board.gameInit();
     }
 
-    private void createComponents() {
+
+    void runFromSave(Board newBoard) {
+        createComponents(newBoard);
+        board.gameInitForSavedGame();
+        Logger.log("Game loaded");
+
+    }
+
+
+    private void createComponents(Board newBoard) {
         loadIcons();
         createMenu();
-        createGameWindow();
+        createGameWindow(newBoard);
         createFrame();
         fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
         createLegend();
@@ -171,6 +180,8 @@ public class GUI extends JFrame implements ActionListener {
         menuBar = new JMenuBar();
         gameMenu = new JMenu("Game");
         menuBar.add(gameMenu);
+        newGame = new JMenuItem("New game");
+        newGame.addActionListener(this::actionPerformed);
         saveGame = new JMenuItem("Save game");
         saveGame.addActionListener(this::actionPerformed);
         loadGame = new JMenuItem("Load game");
@@ -179,6 +190,7 @@ public class GUI extends JFrame implements ActionListener {
         help.addActionListener(this::actionPerformed);
         menuBar.add(help);
 
+        gameMenu.add(newGame);
         gameMenu.add(saveGame);
         gameMenu.add(loadGame);
     }
@@ -195,9 +207,17 @@ public class GUI extends JFrame implements ActionListener {
         setJMenuBar(menuBar);
     }
 
-    private void createGameWindow() {
+    public void cleanMainPanel() {
+        mainPanel.remove(this.board);
+    }
+
+    private void createGameWindow(Board newBoard) {
         mainPanel = (JPanel) getContentPane();
-        board = new Board();
+        if (newBoard == null) {
+            this.board = new Board();
+        } else {
+            this.board = newBoard;
+        }
 
         logPanel = new JPanel();
         legendPanel = new JPanel();
@@ -249,6 +269,11 @@ public class GUI extends JFrame implements ActionListener {
             saveGame();
         } else if (e.getSource() == help) {
             JOptionPane.showMessageDialog(this, helpMessage, "Help", JOptionPane.PLAIN_MESSAGE);
+        } else if (e.getSource() == newGame) {
+            board.gameInit();
+            board.setInGame(true);
+            board.setLooser(false);
+            Logger.log("NEW GAME");
         }
 
     }
@@ -268,25 +293,15 @@ public class GUI extends JFrame implements ActionListener {
                     "This slot i sempty!",
                     "Warning", JOptionPane.WARNING_MESSAGE);
         } else {
-            switch (n) {
-                case 0:
-
-                    return;
-                case 1:
-
-                    return;
-                case 2:
-
-                    return;
-                case 3:
-
-                    return;
-                case 4:
-
-                    return;
+            try {
+                FileLoader.openFile(n + 1);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+            System.err.println("INFO: Loading Save_" + (n + 1));
         }
     }
+
 
     public void saveGame() {
         //fixme: gra zapisuje zawsze na kolejnym wolnym slocie a nie na wskazanym przez użytkownika
@@ -299,34 +314,26 @@ public class GUI extends JFrame implements ActionListener {
                 null,
                 saves,
                 saves[4]);
-//
-//        DateFormat dateFormat = new SimpleDateFormat("yy/MM/dd hh:mm");
-//        Calendar cal = Calendar.getInstance();
 
         switch (n) {
             case 0:
                 FileSaver.saveToFile(board, 1);
-//                saves[0] = dateFormat.format(cal.getTime());
                 saves[0] = "Save_1";
                 return;
             case 1:
                 FileSaver.saveToFile(board, 2);
-//                saves[1] = dateFormat.format(cal.getTime());
                 saves[1] = "Save_2";
                 return;
             case 2:
                 FileSaver.saveToFile(board, 3);
-//                saves[2] = dateFormat.format(cal.getTime());
                 saves[2] = "Save_3";
                 return;
             case 3:
                 FileSaver.saveToFile(board, 4);
-//                saves[3] = dateFormat.format(cal.getTime());
                 saves[3] = "Save_4";
                 return;
             case 4:
                 FileSaver.saveToFile(board, 5);
-//                saves[4] = dateFormat.format(cal.getTime());
                 saves[4] = "Save_5";
                 return;
         }
@@ -368,6 +375,9 @@ public class GUI extends JFrame implements ActionListener {
         return tortioseIcon;
     }
 
+    public void setBoard(Board board) {
+        this.board = board;
+    }
 
     public ImageIcon getPlayerIcon() {
         return playerIcon;

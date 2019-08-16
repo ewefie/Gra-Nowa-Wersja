@@ -41,6 +41,8 @@ public class Board extends JPanel implements ActionListener {
         setVisible(true);
         setBackground(Color.ORANGE);
         setLayout(null);
+        ground = new ImageIcon("images/ziemia.png");
+        organismMap = new HashMap<>();
     }
 
     public boolean isInGame() {
@@ -49,6 +51,26 @@ public class Board extends JPanel implements ActionListener {
 
     public boolean isWinner() {
         return winner;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    public void setWinner(boolean winner) {
+        this.winner = winner;
+    }
+
+    public void setPlayersTurn(boolean playersTurn) {
+        this.playersTurn = playersTurn;
+    }
+
+    public void setOrganismMap(Map<Tile, Organism> organismMap) {
+        this.organismMap = organismMap;
+    }
+
+    public void setTempList(List<Organism> tempList) {
+        this.tempList = tempList;
     }
 
     public boolean isLooser() {
@@ -64,7 +86,6 @@ public class Board extends JPanel implements ActionListener {
     }
 
     protected void gameInit() {
-        ground = new ImageIcon("images/ziemia.png");
         player = new Player(this);
         organismMap = new HashMap<>();
         tempList = new ArrayList<>();
@@ -75,7 +96,16 @@ public class Board extends JPanel implements ActionListener {
 
         timer = new Timer(30, this::actionPerformed);
         timer.start();
+    }
 
+    protected void gameInitForSavedGame() {
+        tempList = new ArrayList<>();
+
+        addKeyListener(new Al());
+        setFocusable(true);
+
+        timer = new Timer(30, this::actionPerformed);
+        timer.start();
     }
 
     public void setLooser(boolean looser) {
@@ -164,11 +194,6 @@ public class Board extends JPanel implements ActionListener {
             organism.action();
         }
         increaseOrganismsAge();
-
-        //testy!!!
-//        ********************************
-
-//        System.out.println(JSONCreator.convertToJSON(this).toString());
     }
 
     public void increaseOrganismsAge() {
@@ -210,6 +235,7 @@ public class Board extends JPanel implements ActionListener {
             inGame = true;
             looser = false;
             Logger.log("NEW GAME");
+            repaint();
         } else if (playersChoice == 1) {
             System.exit(0);
         }

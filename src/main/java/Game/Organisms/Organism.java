@@ -1,6 +1,8 @@
 package Game.Organisms;
 
-import Game.*;
+import Game.Board;
+import Game.OrganismType;
+import Game.Tile;
 
 import java.awt.*;
 import java.util.Random;
@@ -21,6 +23,14 @@ public abstract class Organism {
         this.defeated = false;
         this.actualLocation = new Tile();
         this.newTile = new Tile();
+    }
+
+    public void setInitiative(int initiative) {
+        this.initiative = initiative;
+    }
+
+    public void setOrganismType(OrganismType organismType) {
+        this.organismType = organismType;
     }
 
     public OrganismType getOrganismType() {
